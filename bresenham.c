@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MAX_X 500
+#define MAX_Y 500
+
+char img[MAX_X][MAX_Y];
+
 void iswap(int *a, int *b)
 {
     int tmp = *a;
@@ -10,7 +15,8 @@ void iswap(int *a, int *b)
 
 void plot(int x, int y)
 {
-    printf("(%2d, %2d)\n", x, y);
+    if (x < 0 || y < 0 || x > MAX_X || y > MAX_Y) return;
+    img[x][y] = 1;
 }
 
 /* Bresenham's line algorithm */
@@ -41,8 +47,35 @@ void line(int x0, int y0, int x1, int y1)
     }
 }
 
+/* http://en.wikipedia.org/wiki/Netpbm_format */
+void printpbm()
+{
+    int x, y;
+    puts("P1");
+    printf("%d %d\n", MAX_X, MAX_Y);
+    for (y = 1; y <= MAX_X; y++) {
+        for (x = 1; x <= MAX_Y; x++) {
+            putchar(img[x][y] ? '0' : '1');  // white on black
+            if (x < MAX_X) putchar(' ');
+        }
+        putchar('\n');
+    }
+}
+
 int main()
 {
-    line(0, 0, 10, 7);
+    // draw some lines
+    int x, y;
+    int incr_x = MAX_X * 0.1, incr_y = MAX_Y * 0.1;
+    int mid_x = MAX_X >> 1, mid_y = MAX_Y >> 1;
+    for (x = 0; x <= MAX_X; x += incr_x) {
+        for (y = 0; y <= MAX_Y; y += incr_y) {
+            line(x, y, x + MAX_X, y + MAX_Y);
+            if (x != mid_x && y != mid_y)
+                line(mid_x, mid_y, x, y);
+        }
+    }
+    // output in PBM format
+    printpbm();
     return 0;
 }
