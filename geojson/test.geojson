@@ -1,0 +1,19 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-6.259722, 53.347778] },
+            "properties": {
+                "name": "Dublin City Centre"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [139.6917, 35.689506] },
+            "properties": {
+                "name": "東京都"
+            }
+        }
+    ]
+}
